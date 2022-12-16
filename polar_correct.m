@@ -1,5 +1,7 @@
 function corrected = polar_correct(vals, min, max)
-% Polar correct the values in vals to the range (min, max]
+% corrected = polar_correct(vals, min, max)
+%   Polar correct the values in vals to the range (min, max]
+%   Maps real valued scalars to rotations in SO(1)
 
 upper = max;
 lower = min;
