@@ -1,7 +1,7 @@
 function [x] = grid_trajectory(t, u, l, d, psi0, n0, e0, z0)
 % [x] = grid_trajectory(t, u, l, d, psi0, n0, e0, z0)
 % Calculate the instantaneous reference state of the vehicle at time t
-% for a reference trajectory "mows the lawn" over a rectangular area
+% for a reference trajectory that "mows the lawn" over a rectangular area
 % at a constant velocity
 %
 % Inputs:
@@ -16,19 +16,7 @@ function [x] = grid_trajectory(t, u, l, d, psi0, n0, e0, z0)
 %
 % Outputs:
 %   x       State from trajectory at time t:
-%           [n e z theta psi n_dot e_dot z_dot theta_dot psi_dot]'
-
-%t = 115.709
-
-% Trajectory parameters
-% u = 1;      % Forward velocity
-% l = 100;    % Line length (m)
-% n = 10;     % Number of lines
-% d = 10;     % line separation (m)
-% psi0 = 0;   % Initial line direction
-% n0 = 0;     % Northing of start point    
-% e0 = 0;     % Easting of start point
-% z0 = 10;    % Depth to run at
+%           [n e z phi theta psi n_dot e_dot z_dot phi_dot theta_dot psi_dot]'
 
 % Derived parameters
 t_l = l / u;                % Time to complete a line
@@ -67,11 +55,13 @@ if line_time <= t_l
     n = pos(2);
     e = pos(1);
     z = z0;
+    phi = 0;
     theta = 0;
     psi = line_dir;
     n_dot = u * cosd(psi);
     e_dot = u * sind(psi);
     z_dot = 0;
+    phi_dot = 0;
     theta_dot = 0;
     psi_dot = 0;
     
@@ -92,12 +82,14 @@ else
     n = pos(2);
     e = pos(1);
     z = z0;
+    phi = 0;
     theta = 0;
     psi = brng + change_dir * 90;
 
     n_dot = u * cosd(psi);
     e_dot = u * sind(psi);
     z_dot = 0;
+    phi_dot = 0;
     psi_dot = rot_rate * change_dir;
     theta_dot = 0;
     
@@ -107,6 +99,6 @@ else
     %delete(h_ctr);
 end
 
-x = [n e z theta psi n_dot e_dot z_dot theta_dot psi_dot]';
+x = [n e z phi theta psi n_dot e_dot z_dot phi_dot theta_dot psi_dot]';
 
 end
